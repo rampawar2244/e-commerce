@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-
+import axios from "axios";
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import { useEffect, useState } from "react";
+import { Provider } from "react-redux";
+import ProductList from "./components/reduxStore/ProductList";
+import Cart from "./components/reduxStore/Cart";
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Router>
+    //   <Switch>
+      <Dashboard />
+      // <Route path="/product" element={ProductList}></Route>
+    //   </Switch>  
+    // </Router>
   );
 }
-
 export default App;
