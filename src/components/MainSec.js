@@ -2,18 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./assets/MainSec.scss";
 import ProdutCard from "./ProdutCard";
+import { useHistory } from "react-router-dom";
 function MainSec() {
+  const history = useHistory()
   const [items, setitems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ItemsPerPage] = useState(5);
+  // const [useId, setUserId] = useState("")
   // fetch data using Axios in useEffect
   useEffect(() => {
-    const fetchData = () => {
-      axios
+    const fetchData = async () => {
+    await  axios
         .get("https://fakestoreapi.com/products")
         .then((res) => {
           console.log(res.data);
           setitems(res.data);
+          
         })
         .catch((err) => console.log(err));
     };
@@ -28,7 +32,9 @@ function MainSec() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  const onclickView = (id, category, title , image, price, description, rating) =>{
+    history.push(`/dashboard/viewproduct/${id}/${category}/${title}/${encodeURIComponent(image)}/${price}/${description}/${rating}`)
+  }
   //   const [inputVal, setInputValue] = useState("");
   //   const [list, setList] = useState([]);
   //   const [editIndex, setEditIndex] = useState(null);
@@ -57,16 +63,17 @@ function MainSec() {
   //   };
   return (
     <div className="main__sec">
-      
       <div className="row" style={{ display: "flex" }}>
         {currentItems.map((item, i) => {
           if (i < 5)
             return (
               <ProdutCard
-                title={item.title}
+              key={i}
+                title={item.category}
                 image={item.image}
                 price={item.price}
                 category={item.category}
+                onClickView={()=>onclickView(item.id, item.category, item.title, item.image, item.price, item.description, item.rating.rate)}
               />
             );
         })}

@@ -1,6 +1,6 @@
 import React from "react";
  
-function ProdutCard({title, image, price, category}) {
+function ProdutCard({ onClickView, image, price, category }) {
   return (
     <div className="col-md-4 col-sm-6 mb-md-4 mb-2 product__card" >
       <div className="card product_card_body" style={{alignItems:"center"}} >
@@ -11,7 +11,7 @@ function ProdutCard({title, image, price, category}) {
          <div className="card-body">
         Price:  {price}
         </div>
-        <button className="view_button">View</button>
+        <button onClick={onClickView} className="view_button">View</button>
       </div>
     </div>
   );
