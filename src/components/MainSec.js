@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./assets/MainSec.scss";
-// import "./assets/ProdutCard.scss"
 import ProdutCard from "./ProdutCard";
-import { Link } from "react-router-dom";
 function MainSec() {
-  const [items, setitems] = useState([])
+  const [items, setitems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ItemsPerPage] = useState(5);
+  // fetch data using Axios in useEffect
+  useEffect(() => {
+    const fetchData = () => {
+      axios
+        .get("https://fakestoreapi.com/products")
+        .then((res) => {
+          console.log(res.data);
+          setitems(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchData();
+  }, []);
+  const indexOfLastItem = currentPage * ItemsPerPage;
+  console.log(indexOfLastItem);
+  const indexOfFirstPage = indexOfLastItem - ItemsPerPage;
+  console.log(indexOfFirstPage);
+  const currentItems = items.slice(indexOfFirstPage, indexOfLastItem);
 
-  useEffect(()=>{
-    const fetchData = () =>{
-      axios.get("https://fakestoreapi.com/products").then((res)=>{
-        console.log(res.data)
-        setitems(res.data)
-      })
-      .catch(err=> console.log(err))
-    }
-    fetchData()
-  },[])
- 
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   //   const [inputVal, setInputValue] = useState("");
   //   const [list, setList] = useState([]);
   //   const [editIndex, setEditIndex] = useState(null);
@@ -46,27 +57,35 @@ function MainSec() {
   //   };
   return (
     <div className="main__sec">
-      <div className="row" style={{display:"flex"}}>
-        {items.map((item, i)=>{
-          if(i < 5)
-          return(
-        // <Link to={"/"} >
-            <ProdutCard 
-            title={item.title}
-            image={item.image}
-            price={item.price}
-            category={item.category}
-            />      
-            // </Link>
-            )
+      
+      <div className="row" style={{ display: "flex" }}>
+        {currentItems.map((item, i) => {
+          if (i < 5)
+            return (
+              <ProdutCard
+                title={item.title}
+                image={item.image}
+                price={item.price}
+                category={item.category}
+              />
+            );
         })}
       </div>
-     <div className="pagination">
-      <button className="btn btn-success">
-        +
-      </button>
-     </div>
- 
+      <div className="pagination">
+        {Array.from({ length: Math.ceil(items.length / ItemsPerPage) }).map(
+          (item, i) => {
+            return (
+              <button
+                key={i}
+                onClick={() => paginate(i + 1)}
+                className={currentPage === i + 1 ? "active" : "paginate_button"}
+              >
+                {i + 1}
+              </button>
+            );
+          }
+        )}
+      </div>
     </div>
     // <div className="main__sec">
     //   <input

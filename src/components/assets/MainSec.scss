@@ -1,31 +1,70 @@
-.main__sec{
-    flex: 0.8;
-    background-color: #f9f9f9;
-    padding: 40px 20px;
-    padding-bottom: 0;
-    .product__card{
-        width: 100%;
-        height: 100%;
-        .product_card_body{
-            text-align: center;
-            width: 18rem;
-           
-           .card_img_top{
-               width: 25%;
-               height: 50%;
-           }
-           .card_body{
-            
-           }
-           .card__title{
-             
-               
-           }
-           .card_text{
-   
-           }
+.main__sec {
+  flex: 0.8;
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+  padding-bottom: 0;
+  .product__card {
+    width: 100%;
+    height: 100%;
+    
+    &:hover{
+        cursor: pointer;
+       
+        transition: all .3s ease-in-out;
+        transform: translateY(-7px);
+        box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1), 0 -10
+        px 20px rgba(255, 255, 255, 0.05) inset;
+
+    }
+    .product_card_body {
+      text-align: center;
+      .card_img_top {
+        width: 25%;
+        height: 100px;
+        padding: 10px;
+        
+      }
+      .card_body {
+      }
+      .card__title {
+      }
+      .card_text {
+      }
+      .view_button {
+        border-radius: 10px;
+        border: none;
+        width: 100px;
+        background-color: aliceblue;
+        padding: 6px;
+        position: relative;
+        bottom: 10px;
+
+        &:hover{
+            cursor: pointer;
+            // color: white !important;
+            transition: all .3s ease-in-out;
+            transform: translateY(-7px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1), 0 -10
+            px 20px rgba(255, 255, 255, 0.05) inset;
+
         }
-      
+      }
+    }
    
-   }
+  }
+  .pagination{
+  .paginate_button{
+    margin: 5px;
+    width: 40px;
+    background-color: #007bff;  // Button background color
+    color: #fff;               // Button text color
+    border: 1px solid #007bff;  // Button border
+
+    &.active{
+      
+      background-color: #0056b3; // Active button background color
+      border: 1px solid #0056b3; // Active button border
+    }
+}
+}
 }

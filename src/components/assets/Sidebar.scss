@@ -1,4 +1,26 @@
 .sideBar{
     flex: 0.2;
-    background-color: #dedede;
+    background-color: #FFF;
+    text-align: center;
+    .sideNav_items{
+        background-color: rgb(255, 183, 0);
+        padding: 8px;
+        margin: 12px;
+        border-radius: 6px;
+        border: 1px solid;
+        cursor: pointer;
+        &:hover{
+            background-color: lightgray;
+            cursor: pointer;
+        }
+        &.selected{
+            background-color:rgb(222, 48, 48)!important ;
+            &.selected > .sideNav_items{
+                color: red;
+            }
+            &.selected > .sideNav_items{
+                font-weight: bold;
+            }
+        }
+    }
 }
