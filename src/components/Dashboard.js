@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 // import MainSec from "./MainSec";
@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import "./assets/Dashboard.scss";
 import ViewProducts from "./ViewProducts";
-const MarkdownPreview = lazy(() => import('./MainSec'))
+import MainSec from "./MainSec";
 
 function Dashboard() {
   const [tab, setTab] = useState(0)
@@ -23,7 +23,10 @@ function Dashboard() {
       <div className="dashboard__pages">
         <Sidebar func={setActiveTab} activeTab={tab} />
         <Switch>
-          <Route path="/dashboard/viewproduct/:id/:category/:title/:image/:price/:description/:rating" >
+          <Route path="/dashboard/product/:productID" >
+            <ViewProducts />
+          </Route>
+          <Route path="/dashboard/shoppingCart" >
             <ViewProducts />
           </Route>
           <Route exact path={`/dashboard/`} >
@@ -31,9 +34,7 @@ function Dashboard() {
           </Route>
         </Switch>
 
-        {/* <Suspense fallback={<p>Loading...</p>} >
         
-        </Suspense> */}
       </div>
     </div>
   );
@@ -41,7 +42,7 @@ function Dashboard() {
 
 const ActiveTab = ({tab}) =>{
     if(tab === 0){
-      return <MarkdownPreview />
+      return <MainSec />
     } else if(tab === 1){
       return "comming soon"
     }

@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import axios from "axios";
 import "./assets/MainSec.scss";
-import ProdutCard from "./ProdutCard";
+// import ProdutCard from "./ProdutCard";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setProduct } from "../redux/actions/productActions"
+const ProdutCard = lazy(() => import('./ProdutCard'))
 function MainSec() {
-  const history = useHistory()
+  const products = useSelector((state)=> state.allProducts.products);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [items, setitems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [ItemsPerPage] = useState(5);
-  // const [useId, setUserId] = useState("")
-  // fetch data using Axios in useEffect
-  useEffect(() => {
-    const fetchData = async () => {
-    await  axios
-        .get("https://fakestoreapi.com/products")
-        .then((res) => {
-          console.log(res.data);
-          setitems(res.data);
-          
-        })
-        .catch((err) => console.log(err));
+  
+  const fetchData = async () => {
+   const response = await  axios
+        .get("https://fakestoreapi.com/products").catch((err) => console.log(err));
+        // console.log(response.data)
+        dispatch(setProduct(response.data))
     };
+  useEffect(() => {
     fetchData();
   }, []);
+  console.log("products",products)
   const indexOfLastItem = currentPage * ItemsPerPage;
   console.log(indexOfLastItem);
   const indexOfFirstPage = indexOfLastItem - ItemsPerPage;
@@ -32,9 +33,11 @@ function MainSec() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const onclickView = (id, category, title , image, price, description, rating) =>{
-    history.push(`/dashboard/viewproduct/${id}/${category}/${title}/${encodeURIComponent(image)}/${price}/${description}/${rating}`)
-  }
+  // const onclickView = (id, category, title , image, price, description, rating) =>{
+  //   history.push(`/dashboard/viewproduct/${id}`)
+  // }
+
+
   //   const [inputVal, setInputValue] = useState("");
   //   const [list, setList] = useState([]);
   //   const [editIndex, setEditIndex] = useState(null);
@@ -64,19 +67,9 @@ function MainSec() {
   return (
     <div className="main__sec">
       <div className="row" style={{ display: "flex" }}>
-        {currentItems.map((item, i) => {
-          if (i < 5)
-            return (
-              <ProdutCard
-              key={i}
-                title={item.category}
-                image={item.image}
-                price={item.price}
-                category={item.category}
-                onClickView={()=>onclickView(item.id, item.category, item.title, item.image, item.price, item.description, item.rating.rate)}
-              />
-            );
-        })}
+        <Suspense fallback={<h3>Loading Data</h3>}>
+              <ProdutCard />
+        </Suspense>
       </div>
       <div className="pagination">
         {Array.from({ length: Math.ceil(items.length / ItemsPerPage) }).map(
